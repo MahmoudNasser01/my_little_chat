@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  http_server:
+    build:
+      context: .
+      dockerfile: Dockerfile_httpserver
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+
+  websocket_server:
+    build:
+      context: .
+      dockerfile: Dockerfile_socketserver
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    env_file:
+      - .env
+

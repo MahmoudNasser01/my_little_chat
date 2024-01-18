@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/signup.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">Signup Page</h1>
+
+        <form id="signupForm" action="/signup" method="post">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" id="username" name="username" class="form-control" required>
+
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+
+            <button type="submit" class="btn btn-primary mt-2">Sign Up</button>
+        </form>
+
+        <!-- Display successful signup message with login link -->
+        <div id="loginLinkContainer" class="mt-4">
+            <p>Signup successful! Proceed to <a href="/login">Login</a></p>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.getElementById("signupForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const username = formData.get("username");
+            const password = formData.get("password");
+
+            // Send signup data to the server using fetch or XMLHttpRequest
+            fetch("/signup", {
+                method: "POST",
+                body: JSON.stringify({ username, password }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Check if the signup was successful
+                if (data.status === 'success') {
+                    // Display the login link
+                    document.getElementById("loginLinkContainer").style.display = "block";
+                }
+            })
+            .catch(error => console.error(error));
+        });
+    </script>
+</body>
+</html>
